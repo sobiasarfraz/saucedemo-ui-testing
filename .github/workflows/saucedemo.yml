@@ -1,0 +1,36 @@
+name: Run pytest selenium tests for sauce demo
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  UI_testing:
+    runs-on: ubuntu-latest
+    steps:
+     - name: checkout code
+       uses: actions/checkout@v3
+
+     - name: intal python
+       uses: actions/setup-python@v4
+       with:
+         python-version: '3.11'
+
+     - name: intal dependencies
+       run: pip install -r requirements.txt
+
+     - name: Run tests and generate HTML report
+       run: |
+         mkdir -p reports
+         pytest --html=reports/saucedemo_reports.html
+
+     - name: upload HTML reports outside VM
+       uses: actions/upload-artifact@v4
+       with:
+         name: report
+         path: reports/saucedemo_reports.html
+
+

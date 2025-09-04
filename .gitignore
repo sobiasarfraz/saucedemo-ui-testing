@@ -1,0 +1,6 @@
+# files won't upload on github
+.idea/
+.venv/
+__pycache__/
+logs/
+screenshot/

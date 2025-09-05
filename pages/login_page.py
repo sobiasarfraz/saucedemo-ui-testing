@@ -1,3 +1,8 @@
+'''
+Handles opening the login page, performing login actions,
+and checking for login errors and messages.
+'''
+
 from selenium.webdriver.common.by import By
 import time
 

@@ -1,4 +1,7 @@
-from time import sleep
+'''
+Handles inventory page actions: sorting, adding items to cart,
+resetting the app state via sidebar, handling pop-ups, and checking images.
+'''
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,7 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import UnexpectedAlertPresentException
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.action_chains import ActionChains  # Import for reliable click
 import time
 import logging
 

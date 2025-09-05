@@ -1,3 +1,8 @@
+'''
+Manages checkout steps for different users: navigating checkout, validating and submitting forms,
+completing orders, and logging out. Includes error handling, logging, and screenshots for tracking.
+'''
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -47,7 +52,7 @@ class Checkout:
         postal_code = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[name='postalCode']")))
 
         # JS script to set value and dispatch events
-        '''
+
         js_code = """
           function setNativeValue(element, value) {
               const valueSetter = Object.getOwnPropertyDescriptor(element.__proto__, 'value').set;
@@ -65,9 +70,9 @@ class Checkout:
           setNativeValue(arguments[0], arguments[1]);
           """
           #-------this was original now i am trying other to see if they work well----------
-          '''
 
 
+        '''
         js_code = """
            function setNativeValue(el, value) {
                const lastValue = el.value;
@@ -79,6 +84,7 @@ class Checkout:
            }
            setNativeValue(arguments[0], arguments[1]);
            """
+           '''
        
 
         # Use proper JS setter for each input

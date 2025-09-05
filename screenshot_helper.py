@@ -1,3 +1,8 @@
+'''
+Creates screenshots folder if needed.
+Saves a screenshot with a timestamped filename from the given driver.
+'''
+
 import os
 from datetime import datetime
 

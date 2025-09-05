@@ -1,3 +1,9 @@
+'''
+This file Provides fixtures to set up a headless browser and page objects for each test.
+Loads user data from CSV and initializes logging used across tests and page modules.
+'''
+
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -22,7 +28,7 @@ def browser():
     browser_settings.add_argument("--disable-extensions")  # 🧪 Speeds up loading by disabling all extensions
     browser_settings.add_argument("--disable-infobars")  # 🧪 Removes "Chrome is being controlled by automated test software"
     '''
-    ##_____optional as needed can add in headless mode____
+    #optional if needed ... some elements create a issue 
     browser_settings.add_argument("--remote-allow-origins=*")  # 🧪 Fixes CORS issues in some newer Chrome versions (e.g., origin error)
     browser_settings.add_argument("--disable-software-rasterizer")  # 🧪 Helps with WebGL/canvas errors in graphics-heavy pages
     browser_settings.add_argument("--remote-debugging-port=9222")  # 🧪 Enables debugging, helpful if you want to inspect browser manually

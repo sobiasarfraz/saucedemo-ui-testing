@@ -1,3 +1,8 @@
+'''
+Handles cart page actions like navigating to cart, checking cart status, counting items,
+and removing the last item. Takes screenshots and logs key steps.
+'''
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -28,28 +33,7 @@ class Cart:
         logging.info("confirm cart url")
         return True
 
-    def get_cart_item_names(self):
-        retry = 3
-        for attemp in range(retry):
-            try:
-                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "cart_list")))
-                logging.info("found the whole list now going to find individual item")
-                cart_items = self.wait.until(EC.visibility_of_all_elements_located((By.CLASS_NAME, "cart_item")))
-                if cart_items:
-                    item_names = []
-                    for item in cart_items:
-                        name = item.find_element(By.CLASS_NAME, "inventory_item_name")
-                        item_names.append(name.text)
-                        return item_names
-                else:
-                    logging.warning(f"⚠️ Attempt {attemp + 1}: Cart list is present but no items yet")
 
-            except TimeoutException:
-                logging.warning(f"attept : {attemp + 1} cart items did not load on time ")
-                time.sleep(0.5)
-        logging.error("could not load itmes even in 3 tries")
-        return []
 
 
     def count_items(self):

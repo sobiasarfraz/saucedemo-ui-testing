@@ -1,3 +1,8 @@
+'''
+Sets up logging to write INFO level logs to a timestamped file in the logs folder.
+Creates the logs directory if it doesn't exist.
+'''
+
 import os
 from datetime import datetime
 import logging
@@ -8,9 +13,4 @@ def setup_logging():
     logging.basicConfig(
         filename=filename,
         level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s",
-        #handlers=[               # handlers for log destination
-        #logging.FileHandler(filename),   #   show in file
-        #logging.StreamHandler()         # show in terminal/console too
-        #]
-    )
+        format="%(asctime)s - %(levelname)s - %(message)s",)

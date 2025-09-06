@@ -20,33 +20,29 @@ class Checkout:
         self.short_wait = WebDriverWait(driver, 10)
 
     def chq_out(self):
-        print("checkout function call")
-        logging.info("checkout button function called")
+
         check_out_btn = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[name="checkout"]')))
         self.driver.execute_script("arguments[0].scrollIntoView(true);", check_out_btn)
 
         self.driver.execute_script("arguments[0].click();", check_out_btn)
-        logging.info("check out button is clicked using java script")
-        take_screenshot(self.driver, "on chcekout page ")
-        time.sleep(1)
+        logging.info("checkout button is clicked using java script")
+        take_screenshot(self.driver, "on checkout page ")
+        time.sleep(.5)
 
     def check_result(self):
         return "checkout" in self.driver.current_url
 
     def empty_form(self):
-        take_screenshot(self.driver, "trial empty form")
-        logging.info("first trying to fill empty form")
+
         continue_btn = self.wait.until(EC.element_to_be_clickable((By.NAME, "continue")))
         self.driver.execute_script("arguments[0].click();", continue_btn)
-        take_screenshot(self.driver, "after clicking continue")
+        take_screenshot(self.driver, "click on continue without giving data")
         error_field = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "h3[data-test='error']")))
-        logging.info("click on continue and got error messgae of fill the form ... will return the error message")
-
         return error_field.text.strip()
 
     def fill_form(self,first,last,zip):
-        logging.info("now again on empty form.. now will fill the form to give the data")
-        take_screenshot(self.driver, "fill the form")
+        logging.info("again on empty form, will fill the form")
+
         first_name = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input#first-name")))
         last_name = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='lastName']" )))
         postal_code = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[name='postalCode']")))
@@ -92,19 +88,12 @@ class Checkout:
         self.driver.execute_script(js_code, last_name, last)
         self.driver.execute_script(js_code, postal_code, zip)
         take_screenshot(self.driver, "enter data to form")
-        logging.info("gave data to form")
-
-        # Submit the form
-        #self.driver.execute_script("document.querySelector('form').submit();")
+        logging.info("Form has filled, gave first name, last name, zip code")
 
         continue_btn_clck = self.wait.until(EC.element_to_be_clickable((By.ID, "continue")))
         self.driver.execute_script("arguments[0].scrollIntoView(true);", continue_btn_clck)
         self.driver.execute_script("arguments[0].click();", continue_btn_clck)
 
-
-
-        take_screenshot(self.driver, "after click continue btn filling the form")
-        logging.info("fil the form and continue to click")
         try:
             error_btn = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "h3[data-test='error']")))
             if "Error: Last Name is required" in error_btn.text:
@@ -118,21 +107,16 @@ class Checkout:
 
 
     def overview(self):
-        logging.info("overview function has called")
-        #time.sleep(1)
-        take_screenshot(self.driver, "on overview page")
+        take_screenshot(self.driver, "Checkout: Overview")
         self.wait.until(EC.url_contains("checkout-step-two"))
-        #return "checkout-step-two" in self.driver.current_url
         return True
 
 
     def finish_chqout(self):
         try:
-            take_screenshot(self.driver,"finish page")
+
             finish_button = self.short_wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Finish']")))
             self.driver.execute_script("arguments[0].click();", finish_button)
-            take_screenshot(self.driver,"click on finish btn")
-            #time.sleep(3)  # Wait for potential page change
 
             if "checkout-step-two" in self.driver.current_url:
                 logging.warning("Finish button click had no effect, cannot proceed")
@@ -148,25 +132,26 @@ class Checkout:
 
 
     def log_out(self):
-        logging.info("logout function called")
+
         menu_btn = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='react-burger-menu-btn']")))
-        logging.info("menue button detect")
+        logging.info("menu button detect")
         self.driver.execute_script("arguments[0].click();", menu_btn)
-        logging.info("menue button clicked")
+        logging.info("menu button clicked")
 
         self.wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, 'bm-menu-wrap')))
         logging.info("Sidebar is present")
 
         logout_btn = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@id='logout_sidebar_link']")))
-        logging.info("logout button detectc")
+        logging.info("logout button detected")
 
         self.driver.execute_script("arguments[0].click();", logout_btn)
+
         logging.info("logout done")
 
     def confrm_logout(self):
-        logging.info("confirm logout on main page funtion called")
         confrm = self.wait.until(EC.presence_of_element_located((By.XPATH, "//div[text()='Swag Labs']")))
+        take_screenshot(self.driver, "back to home page")
         return confrm.text
 
 

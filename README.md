@@ -52,18 +52,18 @@ To run the tests, you'll need the following dependencies:
 The project follows a **Page Object Model (POM)** design pattern, which means each page of the application is represented by a class containing the methods to interact with the page. This helps to reduce code duplication and makes the test maintenance easier.
 
 \\Saucedemo-project │
-#### tests 
-- **|----test_full_flow.py** # Main test suite
-#### pages 
-- **|----login_page.py** 
-- **|----inventory_page.py** 
-- **|----cart_page.py** 
-- **|----checkout_page.py** 
-#### conftest.py
-#### screenshot_helper.py
-#### logging_helper.py
-#### requirements.txt
-#### README.md
+####  ├──tests 
+- **|-----test_full_flow.py** &nbsp;&nbsp;&nbsp;   # Main test suite
+#### ├──pages 
+- **|-----login_page.py** 
+- **|-----inventory_page.py** 
+- **|-----cart_page.py** 
+- **|-----checkout_page.py** 
+#### ├──conftest.py
+#### ├──screenshot_helper.py
+#### ├──logging_helper.py
+#### ├──requirements.txt
+#### ├──README.md
 
 
 
@@ -109,17 +109,17 @@ Screenshots will be taken during the test execution and stored in the /screensho
 ## Test Scenarios
 The suite tests the following six user types:
 
-- standard_user: A regular user with full access to the site.
+- `standard_user` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A regular user with full access to the site.
 
-- locked_out_user: A user who has been locked out from the site.
+- `locked_out_user`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             A user who has been locked out from the site.
 
-- performance_glitch_user: A user experiencing simulated performance issues.
+- `performance_glitch_user`:&nbsp;&nbsp;&nbsp;&nbsp; A user experiencing simulated performance issues.
 
-- problem_user: Faces issues with sorting or interacting with elements and completing tasks.
+- `problem_user`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Faces issues with sorting or interacting with elements and completing the order.
 
-- visual_user: A user with visual glitches simulated.
+- `visual_user`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A user with visual glitches simulated.
 
-- error_user: A user encountering general errors.
+- `error_user`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Faces issues with sorting, adding items in cart, fill the form.
 
 ## Test Flow
 Each user scenario follows these steps:

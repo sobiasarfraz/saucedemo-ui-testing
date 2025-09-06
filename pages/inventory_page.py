@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import UnexpectedAlertPresentException
 from selenium.webdriver.support.ui import Select
+from screenshot_helper import take_screenshot
 import time
 import logging
 
@@ -28,8 +29,7 @@ class Inventory:
         #execute_script(): A Selenium method that runs JavaScript code in the browser.
         #"arguments[0].click();": JavaScript code that tells the browser to simulate a click on the element passed to it.
         hamburger = self.default_wait.until(
-            EC.presence_of_element_located((By.ID, 'react-burger-menu-btn'))
-        )
+            EC.presence_of_element_located((By.ID, 'react-burger-menu-btn')))
 
         logging.info("Hamburger menu button found, clicking with JavaScript")
         self.driver.execute_script("arguments[0].click();", hamburger)
@@ -41,31 +41,25 @@ class Inventory:
 
         reset_link = self.default_wait.until(
             EC.presence_of_element_located((By.ID, 'reset_sidebar_link')))
-        logging.info("Reset link found, clicking with JavaScript")
         self.driver.execute_script("arguments[0].click();", reset_link)
         logging.info("Reset link clicked")
         #reset_link.click()
 
         close_button = self.default_wait.until(
             EC.element_to_be_clickable((By.ID, 'react-burger-cross-btn')))
-        logging.info("Close button found, clicking with JavaScript")
         self.driver.execute_script("arguments[0].click();", close_button)
         #close_button.click()
         logging.info("Sidebar closed successfully")
 
 
-
-
-
     def handle_alert_if_present(self):
-
-
         try:
-            self.default_wait.until(EC.alert_is_present())
+
+            WebDriverWait(self.driver, 10).until(EC.alert_is_present())
             alert = self.driver.switch_to.alert
             alrt_txt = alert.text
-            logging.warning(f"Handled alert: {alrt_txt}")
-            time.sleep(0.5)
+            take_screenshot(self.driver, " alert present")
+            logging.warning(f"alert has appeared: {alrt_txt}")
             alert.accept()
             logging.info("Alert accepted.")
             return alrt_txt
@@ -82,14 +76,13 @@ class Inventory:
         try:
             dropdown = Select(self.default_wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "product_sort_container"))))
             dropdown.select_by_value("lohi")
+            take_screenshot(self.driver, "items are sort out")
 
-        #except UnexpectedAlertPresentException:
-            logging.warning("unexpected alert pop up")
-            self.handle_alert_if_present()
+            logging.warning("going to check if alert present")
+            alert_text = self.handle_alert_if_present()
+            if alert_text:
+                logging.warning(f"Alert was present and handled: {alert_text}")
 
-        except UnexpectedAlertPresentException as e:
-            logging.warning(f"unexpected alert pop up {str(e)}")
-            self.handle_alert_if_present()
         except Exception as e:
             logging.error(f" can't sort out: {str(e)}")
 

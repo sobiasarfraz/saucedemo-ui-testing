@@ -31,15 +31,15 @@ def test_login(browser, user_data, setup_pages):
         expected_error = "Epic sadface: Sorry, this user has been locked out."
         assert expected_error in actual_error, f"expected {expected_error} but got : {actual_error}"
         logging.error(f"invalid user: {user_data['username']}  got error : {actual_error}")
-        take_screenshot(browser,"logging error")
+        take_screenshot(browser,"login error")
         return
     else:
         logging.info(f"successfully logged in user: {user_data['username']}")
-        take_screenshot(browser, "logging successfully")
+        take_screenshot(browser, "successfully logged in")
         assert inventory_page.login_check(), "not logged in, we are not on inventory page "
 
     ###---- --------   Step 2 --------------- ----###
-    #broken image check, Reset App State,sort items by low to high price,add first low priced  items in the cart
+    #broken image check, Reset App State,sort items by low to high price,add first low priced items in the cart
 
     # checking image is enable and not broken
     missed_img = inventory_page.image_check()
@@ -53,17 +53,18 @@ def test_login(browser, user_data, setup_pages):
     #assert not missed_img, f"image is not loaded: {missed_img}" #### can check either way
 
     inventory_page.clear_fields()
-    logging.info("fields are cleared")
+    logging.info("App state has been reset")
 
     inventory_page.sort_by_price()
 
     total_items = inventory_page.add_first_items()
+    take_screenshot(browser, "selected items")
     logging.info(f"items sorted by price and add to cart, item added are: {total_items}")
 
     #------------------    Step 3 ----------------------#
     #go to cart page , validate items, Remove item from the cart , Again cart length check
     cart_page.go_tocart()
-    #assert cart_page.chq_cart(), "not on cart page"
+    assert cart_page.chq_cart(), "not on cart page"
     logging.info("now on cart page")
 
     #checking cart count,matches with actual item added
@@ -72,7 +73,6 @@ def test_login(browser, user_data, setup_pages):
     logging.info(f"cart count: {cart_item_length}, expected count is: {expected_cart_count}")
     # ✅ ADD THIS LINE: At least 1 item should be in cart (fail if none)
     assert cart_item_length >= 1, f"No items were added to the cart for user {user_data['username']}"
-    #assert cart_item_length == len(total_items), f"total no of items selected are: {len(total_items)} but in cart there are: {cart_item_length}"
     #checks items are added in cart
     # ✅ ADD THIS LINE: Warn if some items were not added (but don’t fail)
     if cart_item_length != len(total_items):
@@ -82,10 +82,11 @@ def test_login(browser, user_data, setup_pages):
 
     # Remove the highest-priced item if quantity exceeds 2
     if cart_item_length > 2:
+        logging.info("going to remove the last item , limit exceed")
         remove_item = total_items[-1]  # remove last item, higher price
-        is_removed = cart_page.remove_item_by_name(remove_item)
+        is_removed = cart_page.remove_last_item()
         assert is_removed, f" fail to remove item : {remove_item}"
-        logging.info(f"item is removed from the cart: {remove_item}")
+        logging.info(f"item is removed from the cart, product name is: {remove_item}")
 
     # new cart length check
     new_cart_length = cart_page.count_items()
@@ -103,6 +104,7 @@ def test_login(browser, user_data, setup_pages):
     error_msg = chqout.empty_form()
     expected_error_msg = "Error: First Name is required"
     assert error_msg in expected_error_msg, f" expected error message was: {expected_error_msg}, but got message: {error_msg}"
+    logging.warning(f"we tried to continue without filling the form,and record error message: {expected_error_msg} ")
 
     #fill the form
     if chqout.fill_form("shaz", "roy", "1234"):
@@ -113,7 +115,7 @@ def test_login(browser, user_data, setup_pages):
         if order_msg:
             logging.info(f"{user_data['username']} has placed the order! ")
         else:
-            logging.warning("cant finish the order")
+            logging.warning("cant finish the order, elements are disabled")
     else:
         logging.warning(f"we can't fill the form for user: {user_data['username']}, moving to logout")
 
